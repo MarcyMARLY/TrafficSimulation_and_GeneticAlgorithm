@@ -1,0 +1,72 @@
+//General represantation of the genetic algorithm:
+Genetic Algorithm{
+  Initialisation;
+  Evaluation;
+  while criterion has not been reached{
+    Selection;
+    Crossover;// Here will be choosen one of the crossovers written below
+    Mutation;// Here will be choosen one of the mutations written below
+    Evaluation;
+  }
+}
+
+function 1PointCrossover(){
+  c1 = Chromosome1;
+  c2 = Chromosome2;
+
+  crossover Point1  = random;
+
+
+  newChromosome1 = Chromosome1(:,Point1)+Chromosome2(Point1,:)
+  newChromosome2 = Chromosome2(:,Point1)+Chromosome1(Point1,:)
+  return newChromosome1, newChromosome2
+}
+
+function 2PointCrossover(){
+  c1 = Chromosome1;
+  c2 = Chromosome2;
+
+  crossover Point1  = random;
+  crossover Point2 = random;
+
+  newChromosome1 = Chromosome1(:,Point1)+Chromosome2(Point1:Point2)+Chromosome1(Point2,:)
+  newChromosome2 = Chromosome2(:,Point1)+Chromosome1(Point1:Point2)+Chromosome2(Point2,:)
+  return newChromosome1, newChromosome2
+}
+
+function UniformCrossover(){
+  foreach gene in Chromosome1, Chromosome2{
+    if(random == 0){
+      newChromosome1 += gene;
+    }else{
+      newChromosome2 += gene'
+    }
+  }
+  return newChromosome1, newChromosome2
+}
+function BitFlipMutation(){
+  bit = random;
+  Chromosome[bit] = !Chromosome[bit]
+  return Chromosome
+}
+function SwapMutation(){
+  bit1 = random;
+  bit2 = random;
+  temp  = Chromosome[bit1]
+  Chromosome[bit1] = Chromosome[bit2]
+  Chromosome[bit2] = temp
+
+  return Chromosome
+
+}
+function InversionMutation(){
+  border1 = random;
+  border2 = random;
+  PartOfChromosome = Chromosome[border1:border2]
+
+  PartOfChromosome.reverse;
+
+  newChromosome = Chromosome[:, border1] + PartOfChromosome + Chromose[border2, :]
+
+  return newChromosome
+}
